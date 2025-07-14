@@ -36,7 +36,7 @@
         @forelse ($books as $book)
             <x-book-card :book="$book" />
         @empty
-            <p class="col-span-full text-center text-slate-500">No books found.</p>
+            <p class="col-span-full text-center text-slate-500">Daftar buku kosong.</p>
         @endforelse
     </div>
 </x-layout>
