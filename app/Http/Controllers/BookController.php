@@ -23,10 +23,10 @@ class BookController extends Controller
             'popular_last_6months' => $books->popularLast6Months(),
             'highest_rated_last_month' => $books->highestRatedLastMonth(),
             'highest_rated_last_6months' => $books->highestRatedLast6Months(),
-            default => $books->withCount('reviews')->withAvg('reviews', 'rating')
+            default => $books
         };
 
-        $books = $books->get();
+        $books = $books->withCount('reviews')->withAvg('reviews', 'rating')->get();
         return view('books.index', compact('books'));
     }
 
