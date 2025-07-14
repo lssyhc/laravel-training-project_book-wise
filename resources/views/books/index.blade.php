@@ -51,4 +51,8 @@
             <p class="col-span-full text-center text-slate-500">Daftar buku kosong.</p>
         @endforelse
     </div>
+
+    <div class="mt-8">
+        {{ $books->links() }}
+    </div>
 </x-layout>
