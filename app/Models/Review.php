@@ -18,6 +18,8 @@ class Review extends Model
         'updated_at' => 'datetime'
     ];
 
+    protected $fillable = ['rating', 'review', 'book_id', 'created_at'];
+
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);

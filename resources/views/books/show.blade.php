@@ -1,6 +1,8 @@
 <x-layout>
     <div class="flex flex-col gap-12 lg:flex-row">
         <div class="lg:w-1/3">
+            <a class="mb-4 inline-block pl-2 text-lg font-bold hover:underline" href="{{ route('books.index') }}">⬅️
+                Kembali</a>
             <div class="sticky top-8 rounded-lg bg-white p-8 shadow-lg">
                 <h1 class="mb-2 text-3xl font-bold">{{ $book->title }}</h1>
                 <p class="mb-6 text-lg text-slate-700">oleh <span class="font-semibold">{{ $book->author }}</span></p>
@@ -24,7 +26,7 @@
 
                 <h2 class="mb-4 text-2xl font-semibold">Tambah Review Anda</h2>
 
-                <form action="#" method="POST">
+                <form action="{{ route('books.reviews.store', $book) }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700" for="review">Review</label>
@@ -53,7 +55,7 @@
                     </div>
 
                     <button
-                        class="w-full rounded-md bg-blue-500 px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-600"
+                        class="w-full cursor-pointer rounded-md bg-blue-500 px-4 py-3 font-semibold text-white transition-colors hover:bg-blue-600"
                         type="submit">
                         Kirim Review
                     </button>
