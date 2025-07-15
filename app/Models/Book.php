@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class Book extends Model
 {
@@ -35,55 +36,39 @@ class Book extends Model
         return $query->orderByDesc('created_at')->withCount('reviews')->withAvg('reviews', 'rating');
     }
 
+    protected function scopeWithReviewStats(Builder $query, Carbon $fromDate, int $minReviewCount): Builder|QueryBuilder
+    {
+        $dateConstraint = function (Builder $q) use ($fromDate) {
+            $q->where('created_at', '>=', $fromDate);
+        };
+
+        return $query
+            ->withCount(['reviews' => $dateConstraint])
+            ->withAvg(['reviews' => $dateConstraint], 'rating')
+            ->having('reviews_count', '>=', $minReviewCount);
+    }
+
     public function scopePopularLastMonth(Builder $query): Builder|QueryBuilder
     {
-        return $query
-            ->withAvg(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonth(), now()]);
-            }], 'rating')
-            ->withCount(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonth(), now()]);
-            }])
-            ->having('reviews_count', '>=', 2)
+        return $query->withReviewStats(now()->subMonth(), 2)
             ->orderByDesc('reviews_count');
     }
 
     public function scopePopularLast6Months(Builder $query): Builder|QueryBuilder
     {
-        return $query
-            ->withAvg(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonth(6), now()]);
-            }], 'rating')
-            ->withCount(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonths(6), now()]);
-            }])
-            ->having('reviews_count', '>=', 5)
+        return $query->withReviewStats(now()->subMonth(6), 5)
             ->orderByDesc('reviews_count');
     }
 
     public function scopeHighestRatedLastMonth(Builder $query): Builder|QueryBuilder
     {
-        return $query
-            ->withAvg(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonth(), now()]);
-            }], 'rating')
-            ->withCount(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonth(), now()]);
-            }])
-            ->having('reviews_count', '>=', 2)
+        return $query->withReviewStats(now()->subMonth(), 2)
             ->orderByDesc('reviews_avg_rating');
     }
 
     public function scopeHighestRatedLast6Months(Builder $query): Builder|QueryBuilder
     {
-        return $query
-            ->withAvg(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonths(6), now()]);
-            }], 'rating')
-            ->withCount(['reviews' => function (Builder $q) {
-                $q->whereBetween('created_at', [now()->subMonths(6), now()]);
-            }])
-            ->having('reviews_count', '>=', 5)
+        return $query->withReviewStats(now()->subMonth(6), 5)
             ->orderByDesc('reviews_avg_rating');
     }
 }
