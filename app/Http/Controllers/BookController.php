@@ -26,7 +26,7 @@ class BookController extends Controller
             default => $books->withCount('reviews')->withAvg('reviews', 'rating')
         };
 
-        $books = $books->paginate(9);
+        $books = $books->paginate(9)->withQueryString();
         return view('books.index', compact('books'));
     }
 
