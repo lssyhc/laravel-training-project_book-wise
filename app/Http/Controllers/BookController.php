@@ -17,7 +17,6 @@ class BookController extends Controller
         $filter = $request->input('filter', '');
         $page = $request->input('page', 1);
 
-
         $cacheKey = "books:$filter:search=$title:page=$page";
         $books = Cache::tags(['books'])->remember($cacheKey, 3600, function () use ($title, $filter) {
             $books = Book::query();
