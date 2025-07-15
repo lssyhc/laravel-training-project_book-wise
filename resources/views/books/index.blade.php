@@ -34,12 +34,16 @@
                     @endforeach
                 </select>
             </div>
-            <div class="flex items-end">
+            <div class="flex items-end gap-2">
                 <button
                     class="w-full cursor-pointer rounded-md bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
                     type="submit">
                     Filter
                 </button>
+                <a class="w-full rounded-md bg-red-700 px-4 py-2 text-center text-white transition-colors hover:bg-red-800"
+                    href="{{ route('books.index') }}">
+                    Hapus filter
+                </a>
             </div>
         </div>
     </form>

@@ -4,6 +4,7 @@
             {{ $book->title }}
         </h3>
         <span class="text-sm text-slate-600">oleh {{ $book->author }}</span>
+        <p class="mt-2 text-sm text-slate-400">Diterbitkan {{ $book->created_at->diffForHumans() }}</p>
     </div>
     <div class="flex items-center justify-between bg-slate-50 p-4 text-sm">
         <div>

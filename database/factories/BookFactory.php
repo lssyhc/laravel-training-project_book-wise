@@ -20,8 +20,8 @@ class BookFactory extends Factory
             'title' => $this->faker->sentence(3),
             'author' => $this->faker->name,
             'created_at' => $this->faker->dateTimeBetween('-1 years', 'now'),
-            'updated_at' => function ($attributes) {
-                $this->faker->dateTimeBetween($attributes['created_at'], 'now');
+            'updated_at' => function (array $attributes) {
+                return $this->faker->dateTimeBetween($attributes['created_at'], 'now');
             }
         ];
     }
