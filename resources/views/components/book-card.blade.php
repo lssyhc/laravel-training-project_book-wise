@@ -11,7 +11,8 @@
             <span class="font-semibold">Rating {{ number_format($book->reviews_avg_rating, 1) }} ★</span>
             <span class="text-slate-500"> (Jumlah Review {{ number_format($book->reviews_count) }})</span>
         </div>
-        <a class="rounded-md bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600" href="#">
+        <a class="rounded-md bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
+            href="{{ route('books.show', $book) }}">
             Lihat Review
         </a>
     </div>
