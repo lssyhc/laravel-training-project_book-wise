@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Book;
+use App\Models\Review;
+use App\Observers\BookObserver;
+use App\Observers\ReviewObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -23,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('reviews', fn () => Limit::perMinute(5));
+        Book::observe(BookObserver::class);
+        Review::observe(ReviewObserver::class);
     }
 }

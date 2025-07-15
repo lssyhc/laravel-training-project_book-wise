@@ -20,7 +20,7 @@ class BookController extends Controller
 
         $books = Book::query();
         $cacheKey = "books:$filter:search=$title:page=$page";
-        $books = Cache::remember($cacheKey, 3600, function () use ($title, $filter, $books) {
+        $books = Cache::tags(['books'])->remember($cacheKey, 3600, function () use ($title, $filter, $books) {
             $books = $books->when($title, fn ($query, $title) => $query->title($title));
             $books = match($filter) {
                 'latest' => $books->mostRecent(),
